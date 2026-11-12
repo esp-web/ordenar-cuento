@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuentos en orden</title>
+<style>
+:root{color-scheme:light dark;--bg:#e8eef0;--tx:#2b3a42;--card:#f7f9f9;--bd:#b9c7cc;--ac:#4a7a83;--act:#fff;--ok:#dcebdc;--okb:#78a07a;--star:#b8923a}
+@media (prefers-color-scheme:dark){:root{--bg:#222b30;--tx:#dde4e7;--card:#2c373d;--bd:#46555d;--ac:#7fb0b8;--act:#16222a;--ok:#2f4634;--okb:#78a07a;--star:#d1ad5c}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:22px/1.7 Verdana,"Trebuchet MS",sans-serif}
+main{max-width:760px;margin:0 auto;padding:24px 18px 60px}
+h1,h2{line-height:1.3;font-weight:700}
+h1{font-size:1.7rem;margin:.3em 0}
+h2{font-size:1.4rem}
+p{margin:.6em 0}
+button{font:inherit;font-size:1rem;min-height:56px;padding:8px 22px;border-radius:14px;border:2px solid var(--ac);background:var(--ac);color:var(--act);cursor:pointer;transition:background-color .2s}
+button.sec{background:transparent;color:var(--ac)}
+button:focus-visible{outline:4px solid var(--star);outline-offset:2px}
+button:hover{filter:brightness(1.06)}
+.menu{display:grid;gap:14px;margin-top:20px}
+.menu button{display:flex;align-items:center;gap:16px;text-align:left;background:var(--card);color:var(--tx);border:2px solid var(--bd);min-height:80px;font-size:1.15rem}
+.menu span{font-size:2rem}
+.texto{background:var(--card);border:2px solid var(--bd);border-radius:18px;padding:8px 22px;font-size:1.2rem;line-height:1.9}
+.bar{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0}
+ol{list-style:none;margin:16px 0;padding:0;counter-reset:c}
+li{counter-increment:c;display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--bd);border-radius:14px;padding:8px 10px;margin-bottom:10px;font-size:1rem;line-height:1.5}
+li::before{content:counter(c);flex:none;width:34px;height:34px;border-radius:50%;background:var(--bd);color:var(--tx);display:grid;place-items:center;font-size:.9rem}
+li.ok{background:var(--ok);border-color:var(--okb)}
+li.ok .tx::after{content:" ✓"}
+li.arr{position:fixed;z-index:20;margin:0;counter-increment:none;border-color:var(--ac);box-shadow:0 10px 24px rgba(0,0,0,.28);cursor:grabbing}
+li.arr::before{display:none}
+li.hueco{background:transparent;border-style:dashed;border-color:var(--ac)}
+.tx{flex:1}
+.asa{flex:none;width:44px;text-align:center;font-size:1.6rem;cursor:grab;touch-action:none;user-select:none;color:var(--ac)}
+.fl{display:flex;flex-direction:column;gap:4px}
+.fl button{min-height:38px;min-width:44px;padding:0;font-size:.85rem;background:transparent;color:var(--ac)}
+#msg{font-size:1.1rem}
+.est{font-size:2.2rem;color:var(--star);letter-spacing:6px;margin:0}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const C=[
+{t:"Caperucita Roja",e:"🧣",x:[
+"Había una niña a la que todos llamaban Caperucita Roja por su capa roja. Un día, su mamá preparó una cesta con comida para la abuelita, que estaba enferma. Caperucita salió hacia su casa por el camino del bosque.",
+"En el bosque se encontró con un lobo. El lobo le preguntó adónde iba y ella se lo contó. Entonces el lobo corrió por un atajo y llegó antes a la casa de la abuelita.",
+"Allí se disfrazó con el camisón de la abuelita y se metió en la cama. Cuando llegó Caperucita, notó cosas raras: ¡qué ojos, qué orejas y qué boca tan grandes tenía! Entonces el lobo intentó atraparla.",
+"Un cazador oyó los gritos y corrió a ayudar. Todos quedaron a salvo, y Caperucita prometió hacer siempre caso a su mamá."],
+f:["Mamá prepara una cesta para la abuelita enferma.","Caperucita sale hacia la casa de la abuelita.","En el bosque se encuentra con el lobo.","El lobo le pregunta adónde va y ella se lo cuenta.","El lobo llega antes a la casa de la abuelita.","El lobo se disfraza de abuelita y se mete en la cama.","Caperucita ve unos ojos, orejas y boca muy grandes.","El lobo intenta atrapar a Caperucita.","El cazador oye los gritos y corre a ayudar.","Todos quedan a salvo y Caperucita promete hacer caso a su mamá."]},
+{t:"Los tres cerditos",e:"🐷",x:[
+"Tres cerditos hermanos decidieron construir cada uno su casa. El primero hizo una casa de paja. El segundo hizo una casa de madera. El tercero trabajó mucho y construyó una casa de ladrillos.",
+"Llegó el lobo y sopló sobre la casa de paja: ¡se cayó! Después sopló sobre la de madera y también se cayó. Los cerditos huyeron y se refugiaron en la casa de ladrillos.",
+"El lobo sopló y sopló, pero la casa no se movió. Entonces subió al tejado para entrar por la chimenea. Pero los cerditos habían puesto una olla con agua caliente. El lobo cayó dentro, salió corriendo asustado y nunca volvió."],
+f:["Los tres cerditos deciden hacer cada uno su casa.","El primero construye una casa de paja.","El segundo construye una casa de madera.","El tercero trabaja mucho y construye una casa de ladrillos.","El lobo sopla y derriba la casa de paja.","El lobo derriba la casa de madera y los cerditos huyen.","Los tres se refugian en la casa de ladrillos.","El lobo sopla, pero no puede derribarla.","El lobo sube al tejado para entrar por la chimenea.","Cae en la olla de agua caliente y huye para siempre."]},
+{t:"Hansel y Gretel",e:"🍬",x:[
+"Hansel y Gretel vivían con su padre y su madrastra, y pasaban hambre. Un día los llevaron al bosque y los dejaron solos. Hansel había ido dejando migas de pan para encontrar el camino de vuelta, pero los pájaros se las comieron y los niños se perdieron.",
+"Caminando, encontraron una casita hecha de pan y dulces, y empezaron a comer. Una bruja los invitó a entrar, pero era mala: encerró a Hansel en una jaula y obligó a Gretel a trabajar para ella.",
+"Un día, Gretel engañó a la bruja y la empujó al horno. Liberó a Hansel y recogieron las joyas de la bruja. Por fin encontraron el camino a casa, y su padre los abrazó muy feliz."],
+f:["Hansel y Gretel pasan hambre en casa con su padre y su madrastra.","Los llevan al bosque y los dejan solos.","Hansel deja migas de pan para encontrar el camino de vuelta.","Los pájaros se comen las migas y los niños se pierden.","Encuentran una casita de pan y dulces y empiezan a comer.","Una bruja los invita a entrar y encierra a Hansel en una jaula.","La bruja obliga a Gretel a trabajar para ella.","Gretel engaña a la bruja y la empuja al horno.","Gretel libera a Hansel y recogen las joyas de la bruja.","Encuentran el camino a casa y abrazan a su padre."]},
+{t:"Ricitos de Oro",e:"🐻",x:[
+"Una familia de osos vivía en una casita del bosque. Una mañana prepararon su avena, pero estaba muy caliente, así que salieron a pasear mientras se enfriaba.",
+"Una niña de pelo dorado, Ricitos de Oro, encontró la casita y entró. Probó tres platos de avena y se comió el pequeño, que estaba perfecto. Se sentó en la silla del osito y la rompió. Después subió, se tumbó en la cama pequeña y se quedó dormida.",
+"Los osos volvieron a casa y vieron la avena comida y la silla rota. Subieron y encontraron a la niña durmiendo en la cama. Ricitos se despertó, se asustó y salió corriendo."],
+f:["Los osos preparan la avena y salen a pasear.","Ricitos de Oro encuentra la casita y entra.","Prueba tres platos de avena y se come el pequeño.","Se sienta en la silla del osito y la rompe.","Sube y se tumba en la cama pequeña.","Ricitos de Oro se queda dormida.","Los osos vuelven a casa.","Ven la avena comida y la silla rota.","Encuentran a la niña durmiendo en la cama.","Ricitos se despierta, se asusta y sale corriendo."]}
+];
+const app=document.getElementById("app");
+
+function menu(){
+  app.innerHTML=`<h1>Cuentos en orden</h1><p>Elige un cuento, léelo con calma y después ordena lo que pasó.</p>
+  <div class="menu">${C.map((c,i)=>`<button data-i="${i}"><span aria-hidden="true">${c.e}</span>${c.t}</button>`).join("")}</div>`;
+  app.querySelectorAll(".menu button").forEach(b=>b.onclick=()=>leer(+b.dataset.i));
+}
+
+function leer(i){
+  const c=C[i];
+  app.innerHTML=`<h1>${c.e} ${c.t}</h1><div class="texto">${c.x.map(p=>`<p>${p}</p>`).join("")}</div>
+  <div class="bar"><button id="ya">Ya lo he leído</button><button class="sec" id="v">Volver</button></div>`;
+  scrollTo(0,0);
+  document.getElementById("ya").onclick=()=>ordenar(i);
+  document.getElementById("v").onclick=menu;
+}
+
+function mezclar(n){
+  let a;
+  do{a=[...Array(n).keys()];for(let k=n-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];}}
+  while(a.every((v,k)=>v===k));
+  return a;
+}
+
+function ordenar(i){
+  const c=C[i];let intentos=0;
+  app.innerHTML=`<h2>Ordena la historia</h2>
+  <p>Mueve las tarjetas para que cuenten el cuento en orden. Arrastra con ⠿ o usa las flechas.</p>
+  <ol id="l">${mezclar(10).map(k=>`<li data-i="${k}"><span class="asa" aria-hidden="true">⠿</span><span class="tx">${c.f[k]}</span><span class="fl"><button aria-label="Subir tarjeta" data-d="-1">▲</button><button aria-label="Bajar tarjeta" data-d="1">▼</button></span></li>`).join("")}</ol>
+  <div id="res" hidden><p class="est" id="est"></p></div><p id="msg" role="status"></p>
+  <div class="bar"><button id="comp">Comprobar</button><button id="pista" class="sec" hidden>Dame una pista</button><button id="ver" class="sec" hidden>Ver el orden</button><button id="otro" hidden>Otro cuento</button><button id="rel" class="sec">Volver a leer</button></div>`;
+  scrollTo(0,0);
+  const l=document.getElementById("l"),msg=document.getElementById("msg"),est=document.getElementById("est"),res=document.getElementById("res");
+  const $=id=>document.getElementById(id);
+  const orden=()=>[...l.children].map(li=>+li.dataset.i);
+  const marcar=()=>{const o=orden();let n=0;[...l.children].forEach((li,p)=>{const b=o[p]===p;li.classList.toggle("ok",b);if(b)n++;});return n;};
+  const fin=()=>{["comp","pista","ver"].forEach(x=>$(x).hidden=true);$("otro").hidden=false;};
+
+  l.addEventListener("click",e=>{
+    const b=e.target.closest("button[data-d]");if(!b)return;
+    const li=b.closest("li");
+    if(b.dataset.d==="-1"){const p=li.previousElementSibling;if(p)l.insertBefore(li,p);}
+    else{const n=li.nextElementSibling;if(n)l.insertBefore(n,li);}
+    b.focus();
+  });
+
+  let arr=null,hu=null,off=0,y=0;
+  const paso=()=>{
+    if(!arr)return;
+    if(y<90)scrollBy(0,-10);else if(y>innerHeight-90)scrollBy(0,10);
+    arr.style.top=(y-off)+"px";
+    let t=null;
+    for(const s of l.children){
+      if(s===arr||s===hu)continue;
+      const r=s.getBoundingClientRect();
+      if(y<r.top+r.height/2){t=s;break;}
+    }
+    let n=hu.nextElementSibling;if(n===arr)n=n.nextElementSibling;
+    if(n!==t)l.insertBefore(hu,t);
+    requestAnimationFrame(paso);
+  };
+  l.addEventListener("pointerdown",e=>{
+    const h=e.target.closest(".asa");if(!h)return;
+    e.preventDefault();
+    arr=h.closest("li");
+    const r=arr.getBoundingClientRect();
+    off=e.clientY-r.top;y=e.clientY;
+    hu=document.createElement("li");hu.className="hueco";hu.style.height=r.height+"px";
+    l.insertBefore(hu,arr);
+    arr.classList.add("arr");
+    arr.style.width=r.width+"px";arr.style.left=r.left+"px";arr.style.top=r.top+"px";
+    h.setPointerCapture(e.pointerId);
+    requestAnimationFrame(paso);
+  });
+  l.addEventListener("pointermove",e=>{if(arr)y=e.clientY;});
+  const soltar=()=>{
+    if(!arr)return;
+    l.insertBefore(arr,hu);hu.remove();
+    arr.classList.remove("arr");arr.removeAttribute("style");
+    arr=hu=null;
+  };
+  l.addEventListener("pointerup",soltar);
+  l.addEventListener("pointercancel",soltar);
+
+  $("comp").onclick=()=>{
+    intentos++;
+    const n=marcar(),s=n===10?3:n>=7?2:1;
+    res.hidden=false;
+    est.textContent="★".repeat(s)+"☆".repeat(3-s);
+    est.setAttribute("aria-label",s+" de 3 estrellas");
+    if(n===10){msg.textContent="¡Qué bien lo has hecho! Has ordenado todo el cuento.";fin();}
+    else{
+      msg.textContent=(s===2?"¡Muy bien! Casi lo tienes. ":"¡Buen intento! Vas por buen camino. ")+"Las tarjetas con ✓ ya están en su sitio. Puedes mover las demás y probar otra vez.";
+      $("pista").hidden=false;
+      if(intentos>=2)$("ver").hidden=false;
+    }
+  };
+  $("pista").onclick=()=>{
+    const o=orden(),p=o.findIndex((v,k)=>v!==k);
+    if(p<0)return;
+    msg.textContent="Pista: en el puesto "+(p+1)+" va una tarjeta que empieza así: «"+c.f[p].split(" ").slice(0,3).join(" ")+"…»";
+  };
+  $("ver").onclick=()=>{
+    C[i].f.forEach((_,k)=>{l.appendChild([...l.children].find(li=>+li.dataset.i===k));});
+    marcar();
+    msg.textContent="Este es el orden del cuento. Léelo con calma y, cuando quieras, vuelve a intentarlo.";
+    fin();
+  };
+  $("otro").onclick=menu;
+  $("rel").onclick=()=>leer(i);
+}
+menu();
+</script>
+</body>
+</html>
